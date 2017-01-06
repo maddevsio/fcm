@@ -13,13 +13,13 @@ It's designed for simple push notification sending via HTTP API
 To install fcm, use go get:
 
 ```
-go get github.com/maddevsio/fcm
+go get gopkg.in/maddevsio/fcm.v1
 ```
 
 Import fcm with the following:
 
 ```
-import "github.com/maddevsio/fcm"
+import "gopkg.in/maddevsio/fcm.v1"
 ```
 
 # Sample usage
@@ -31,7 +31,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/maddevsio/fcm"
+	"gopkg.in/maddevsio/fcm.v1"
 )
 
 func main() {
