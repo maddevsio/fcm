@@ -6,7 +6,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/maddevsio/fcm/badge.svg?branch=master)](https://coveralls.io/github/maddevsio/fcm?branch=master)
 
 Firebase Cloud Messaging for application servers implemented using the Go programming language.
-It's designed for simple push notification sending via 
+It's designed for simple push notification sending via HTTP API
 
 # Getting started
 
