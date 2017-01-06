@@ -1,3 +1,7 @@
+// Copyright (c) 2017 Mad Devs Developers All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 /*
 Package firebase provides integration with Firebase Cloud Notification HTTP API https://firebase.google.com/docs/cloud-messaging/http-server-ref
 You can send push notifications to Android and iOS devices via simple API.
