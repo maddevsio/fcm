@@ -11,4 +11,4 @@ sudo: false
 before_install:
   - go get github.com/mattn/goveralls
 script:
-  - $HOME/gopath/bin/goveralls -service=travis-ci -ignore=examples/*
+  - $HOME/gopath/bin/goveralls -service=travis-ci -ignore=./examples/sound/ios_notification_with_sound.go,./examples/normal_priority/normal_priority_notification.go,./examples/high_priority/high_priority_notification.go
