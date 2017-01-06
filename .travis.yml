@@ -7,3 +7,8 @@ go:
   - master
 
 sudo: false
+
+before_install:
+  - go get github.com/mattn/goveralls
+script:
+  - $HOME/gopath/bin/goveralls -service=travis-pro
