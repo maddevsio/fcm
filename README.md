@@ -63,7 +63,7 @@ func main() {
 
 ```
 
-More examples can be found in /examples/ directory
+More examples can be found in /_examples/ directory
 
 # License
 
