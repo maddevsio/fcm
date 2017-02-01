@@ -33,7 +33,7 @@ var (
 	}
 
 	// fcmServerUrl for testing purposes
-	fcmServerURL = "https://fcm.googleapis.com/fcm/send"
+	FCMServerURL = "https://fcm.googleapis.com/fcm/send"
 )
 
 // FCM  stores client with api key to firebase
@@ -57,7 +57,7 @@ func (f *FCM) Send(message *Message) (*Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	req, err := http.NewRequest(MethodPOST, fcmServerURL, bytes.NewBuffer(data))
+	req, err := http.NewRequest(MethodPOST, FCMServerURL, bytes.NewBuffer(data))
 	if err != nil {
 		return nil, err
 	}

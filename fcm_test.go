@@ -9,7 +9,7 @@ import (
 
 func TestSendTopic(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(handleTopic))
-	fcmServerURL = srv.URL
+	FCMServerURL = srv.URL
 
 	defer srv.Close()
 
@@ -34,7 +34,7 @@ func TestSendTopic(t *testing.T) {
 
 func TestSendMessageCanSendToMultipleRegIDs(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(handleRegs))
-	fcmServerURL = srv.URL
+	FCMServerURL = srv.URL
 
 	defer srv.Close()
 
