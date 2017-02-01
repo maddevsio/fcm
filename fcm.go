@@ -74,6 +74,9 @@ func (f *FCM) Send(message *Message) (*Response, error) {
 
 	defer resp.Body.Close()
 
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("%d status code", resp.StatusCode)
+	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
@@ -85,10 +88,6 @@ func (f *FCM) Send(message *Message) (*Response, error) {
 	response.StatusCode = resp.StatusCode
 
 	response.RetryAfter = resp.Header.Get(HeaderRetryAfter)
-
-	if response.StatusCode != 200 {
-		return nil, fmt.Errorf("%d status code", resp.StatusCode)
-	}
 
 	if err := f.Failed(response); err != nil {
 		return nil, err
