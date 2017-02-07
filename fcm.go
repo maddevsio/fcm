@@ -38,66 +38,67 @@ var (
 
 // FCM  stores client with api key to firebase
 type FCM struct {
-	APIKey             string
-	AuthorizationToken string
+	APIKey string
 }
 
 // NewFCM creates a new client
 func NewFCM(apiKey string) *FCM {
 	return &FCM{
-		APIKey:             apiKey,
-		AuthorizationToken: fmt.Sprintf("key=%v", apiKey),
+		APIKey: apiKey,
 	}
+}
 
+func (f *FCM) AuthorizationToken() string {
+	return fmt.Sprintf("key=%v", f.APIKey)
 }
 
 // Send message to FCM
-func (f *FCM) Send(message *Message) (*Response, error) {
-	data, err := json.Marshal(*message)
+func (f *FCM) Send(message Message) (Response, error) {
+	data, err := json.Marshal(message)
 	if err != nil {
-		return nil, err
-	}
-	req, err := http.NewRequest(MethodPOST, FCMServerURL, bytes.NewBuffer(data))
-	if err != nil {
-		return nil, err
+		return Response{}, err
 	}
 
-	req.Header.Set("Authorization", f.AuthorizationToken)
+	req, err := http.NewRequest(MethodPOST, FCMServerURL, bytes.NewBuffer(data))
+	if err != nil {
+		return Response{}, err
+	}
+
+	req.Header.Set("Authorization", f.AuthorizationToken())
 	req.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
-
 	if err != nil {
-		return nil, err
+		return Response{}, err
 	}
-
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
-		return nil, fmt.Errorf("%d status code", resp.StatusCode)
+		return Response{}, fmt.Errorf("%d status code", resp.StatusCode)
 	}
+
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, err
+		return Response{}, err
 	}
-	response := &Response{}
-	if err := json.Unmarshal(body, response); err != nil {
-		return nil, err
+
+	response := Response{}
+	if err := json.Unmarshal(body, &response); err != nil {
+		return response, err
 	}
+
 	response.StatusCode = resp.StatusCode
-
 	response.RetryAfter = resp.Header.Get(HeaderRetryAfter)
-
-	if err := f.Failed(response); err != nil {
-		return nil, err
+	if err := f.Failed(&response); err != nil {
+		return response, err
 	}
 	response.Ok = true
-	return response, nil
 
+	return response, nil
 }
 
-// Failed method incicates if the server couldn't process
+// Failed method indicates if the server couldn't process
 // the request in time.
 func (f *FCM) Failed(response *Response) error {
 	for _, val := range response.Results {
@@ -107,5 +108,6 @@ func (f *FCM) Failed(response *Response) error {
 			}
 		}
 	}
+
 	return nil
 }

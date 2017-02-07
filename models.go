@@ -57,8 +57,7 @@ type (
 		// the notification payload. See Notification payload support for detail.
 		// For more information about notification message and data message options, see
 		// Notification
-
-		Notification *Notification `json:"notification,omitempty"`
+		Notification Notification `json:"notification,omitempty"`
 
 		// ContentAvailable On iOS, use this field to represent content-available
 		// in the APNS payload. When a notification or message is sent and this is set
@@ -99,26 +98,34 @@ type (
 	Response struct {
 		Ok         bool
 		StatusCode int
+
 		// MulticastID a unique ID (number) identifying the multicast message.
 		MulticastID int `json:"multicast_id"`
+
 		// Success number of messages that were processed without an error.
 		Success int `json:"success"`
+
 		// Fail number of messages that could not be processed.
 		Fail int `json:"failure"`
+
 		// CanonicalIDs number of results that contain a canonical registration token.
 		// A canonical registration ID is the registration token of the last registration
 		// requested by the client app. This is the ID that the server should use
 		// when sending messages to the device.
 		CanonicalIDs int `json:"canonical_ids"`
+
 		// Results Array of objects representing the status of the messages processed. The objects are listed in the same order as the request (i.e., for each registration ID in the request, its result is listed in the same index in the response).
 		// message_id: String specifying a unique ID for each successfully processed message.
 		// registration_id: Optional string specifying the canonical registration token for the client app that the message was processed and sent to. Sender should use this value as the registration token for future requests. Otherwise, the messages might be rejected.
 		// error: String specifying the error that occurred when processing the message for the recipient. The possible values can be found in table 9.
 		Results []map[string]string `json:"results,omitempty"`
+
 		// The topic message ID when FCM has successfully received the request and will attempt to deliver to all subscribed devices.
 		MsgID int `json:"message_id,omitempty"`
+
 		// Error that occurred when processing the message. The possible values can be found in table 9.
 		Err string `json:"error,omitempty"`
+
 		// RetryAfter
 		RetryAfter string
 	}
