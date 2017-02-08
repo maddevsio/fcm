@@ -18,7 +18,7 @@ func main() {
 		Data:             data,
 		RegistrationIDs:  []string{token},
 		ContentAvailable: true,
-		Priority:         fcm.PriorityNormal,
+		Priority:         fcm.PriorityHigh,
 		Notification: &fcm.Notification{
 			Title: "Hello",
 			Body:  "World",

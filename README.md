@@ -41,12 +41,12 @@ func main() {
 	}
 	c := fcm.NewFCM("serverKey")
 	token := "token"
-	response, err := c.Send(&fcm.Message{
+	response, err := c.Send(fcm.Message{
 		Data:             data,
 		RegistrationIDs:  []string{token},
 		ContentAvailable: true,
 		Priority:         fcm.PriorityHigh,
-		Notification: &fcm.Notification{
+		Notification: fcm.Notification{
 			Title: "Hello",
 			Body:  "World",
 		},

@@ -20,15 +20,16 @@ func TestSendTopic(t *testing.T) {
 		"second": "value",
 	}
 
-	res, err := c.Send(&Message{
+	res, err := c.Send(Message{
 		Data: data,
 		To:   "/topics/topicName",
 	})
 	if err != nil {
 		t.Error("Response Error : ", err)
 	}
-	if res == nil {
-		t.Error("Res is nil")
+
+	if res.StatusCode != http.StatusOK {
+		t.Error("Status code is not 200")
 	}
 }
 
@@ -51,15 +52,15 @@ func TestSendMessageCanSendToMultipleRegIDs(t *testing.T) {
 		"token2",
 	}
 
-	res, err := c.Send(&Message{
+	res, err := c.Send(Message{
 		Data:            data,
 		RegistrationIDs: ids,
 	})
 	if err != nil {
 		t.Error("Response Error : ", err)
 	}
-	if res == nil {
-		t.Error("Res is nil")
+	if res.StatusCode != http.StatusOK {
+		t.Error("Status code is not 200")
 	}
 
 	if res.Success != 2 || res.Fail != 1 {
