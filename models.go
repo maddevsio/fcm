@@ -94,11 +94,21 @@ type (
 		Condition string `json:"condition,omitempty"`
 	}
 
-	// Result from FCM, sent in the "results" field of the Response packet
+	// Downstream result from FCM, sent in the "results" field of the Response packet
 	Result struct {
-		MessageID      string `json:"message_id"`
+		// String specifying a unique ID for each successfully processed message.
+		MessageID string `json:"message_id"`
+
+		// Optional string specifying the canonical registration token for the
+		// client app that the message was processed and sent to. Sender should
+		// use this value as the registration token for future requests.
+		// Otherwise, the messages might be rejected.
 		RegistrationID string `json:"registration_id"`
-		Error          string `json:"error"`
+
+		// String specifying the error that occurred when processing the message
+		// for the recipient. The possible values can be found in table 9 here:
+		// https://firebase.google.com/docs/cloud-messaging/http-server-ref#table9
+		Error string `json:"error"`
 	}
 
 	// Response represents fcm response message - (tokens and topics)
