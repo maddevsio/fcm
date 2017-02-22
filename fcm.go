@@ -101,11 +101,9 @@ func (f *FCM) Send(message Message) (Response, error) {
 // Failed method indicates if the server couldn't process
 // the request in time.
 func (f *FCM) Failed(response *Response) error {
-	for _, val := range response.Results {
-		for k, v := range val {
-			if k == ErrorKey && retryableErrors[v] {
-				return fmt.Errorf("Failed %s", k)
-			}
+	for _, response := range response.Results {
+		if retryableErrors[response.Error] {
+			return fmt.Errorf("Failed %s", response.Error)
 		}
 	}
 
