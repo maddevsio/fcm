@@ -39,7 +39,7 @@ func TestSendMessageCanSendToMultipleRegIDs(t *testing.T) {
 
 	defer srv.Close()
 
-	c := NewFCM("key")
+	c := NewFCMWithClient("key", &http.Client{})
 
 	data := map[string]string{
 		"msg": "Hello World",

@@ -38,13 +38,23 @@ var (
 
 // FCM  stores client with api key to firebase
 type FCM struct {
-	APIKey string
+	APIKey     string
+	HttpClient *http.Client
 }
 
 // NewFCM creates a new client
 func NewFCM(apiKey string) *FCM {
 	return &FCM{
-		APIKey: apiKey,
+		APIKey:     apiKey,
+		HttpClient: &http.Client{},
+	}
+}
+
+// NewFCM creates a new client
+func NewFCMWithClient(apiKey string, httpClient *http.Client) *FCM {
+	return &FCM{
+		APIKey:     apiKey,
+		HttpClient: httpClient,
 	}
 }
 
@@ -67,8 +77,7 @@ func (f *FCM) Send(message Message) (Response, error) {
 	req.Header.Set("Authorization", f.AuthorizationToken())
 	req.Header.Set("Content-Type", "application/json")
 
-	client := &http.Client{}
-	resp, err := client.Do(req)
+	resp, err := f.HttpClient.Do(req)
 	if err != nil {
 		return Response{}, err
 	}
