@@ -92,6 +92,11 @@ type (
 		// Supported condition: Topic, formatted as "'yourTopic' in topics". This value is case-insensitive.
 		// Supported operators: &&, ||. Maximum two operators per topic message supported.
 		Condition string `json:"condition,omitempty"`
+
+		// Currently for iOS 10+ devices only. On iOS, use this field to represent mutable-content in the APNS payload.
+		// When a notification is sent and this is set to true, the content of the notification can be modified before
+		// it is displayed, using a Notification Service app extension. This parameter will be ignored for Android and web.
+		MutableContent bool `json:"mutable_content,omitempty"`
 	}
 
 	// Downstream result from FCM, sent in the "results" field of the Response packet
