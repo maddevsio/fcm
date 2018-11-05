@@ -64,6 +64,7 @@ func (f *FCM) AuthorizationToken() string {
 
 // Send message to FCM
 func (f *FCM) Send(message Message) (Response, error) {
+
 	data, err := json.Marshal(message)
 	if err != nil {
 		return Response{}, err
@@ -83,22 +84,24 @@ func (f *FCM) Send(message Message) (Response, error) {
 	}
 	defer resp.Body.Close()
 
+	response := Response{StatusCode: resp.StatusCode}
+	if resp.StatusCode == 200 || (resp.StatusCode >= 500 && resp.StatusCode > 600) {
+		response.RetryAfter = resp.Header.Get(HeaderRetryAfter)
+	}
+
 	if resp.StatusCode != 200 {
-		return Response{}, fmt.Errorf("%d status code", resp.StatusCode)
+		return response, fmt.Errorf("%d status code", resp.StatusCode)
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return Response{}, err
+		return response, err
 	}
 
-	response := Response{}
 	if err := json.Unmarshal(body, &response); err != nil {
 		return response, err
 	}
 
-	response.StatusCode = resp.StatusCode
-	response.RetryAfter = resp.Header.Get(HeaderRetryAfter)
 	if err := f.Failed(&response); err != nil {
 		return response, err
 	}
