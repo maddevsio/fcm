@@ -122,7 +122,7 @@ type (
 		StatusCode int
 
 		// MulticastID a unique ID (number) identifying the multicast message.
-		MulticastID int `json:"multicast_id"`
+		MulticastID uint64 `json:"multicast_id"`
 
 		// Success number of messages that were processed without an error.
 		Success int `json:"success"`
