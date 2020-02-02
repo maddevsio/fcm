@@ -160,6 +160,9 @@ type (
 		// Body indicates notification body text.
 		Body string `json:"body,omitempty"`
 
+		// Image should contains the URL of an image that is going to be downloaded on the device and displayed in a notification.
+		Image string `json:"image,omitempty"`
+
 		// AndroidChannelID The notification's channel id (new in Android O).
 		// The app must create a channel with this channel ID before any notification with this channel ID is received.
 		// If you don't send this channel ID in the request, or if the channel ID provided has
