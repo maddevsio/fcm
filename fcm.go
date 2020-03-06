@@ -85,7 +85,7 @@ func (f *FCM) Send(message Message) (Response, error) {
 	defer resp.Body.Close()
 
 	response := Response{StatusCode: resp.StatusCode}
-	if resp.StatusCode == 200 || (resp.StatusCode >= 500 && resp.StatusCode > 600) {
+	if resp.StatusCode == 200 || (resp.StatusCode >= 500 && resp.StatusCode < 600) {
 		response.RetryAfter = resp.Header.Get(HeaderRetryAfter)
 	}
 
